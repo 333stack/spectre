@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=spectre
+Comment=Convert YouTube links to MP3 320 / FLAC / WAV
+Exec=spectre
+Icon=audio-x-generic
+Terminal=false
+Categories=AudioVideo;Audio;

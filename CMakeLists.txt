@@ -8,3 +8,8 @@ target_link_libraries(spectre PRIVATE kitui_app)
 
 add_executable(queue_test EXCLUDE_FROM_ALL tests/queue_test.cpp)  # needs network + yt-dlp: cmake --build build --target queue_test
 target_link_libraries(queue_test PRIVATE kitui_app)
+
+install(TARGETS spectre)
+if(UNIX)
+  install(FILES spectre.desktop DESTINATION share/applications)
+endif()
