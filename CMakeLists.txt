@@ -3,7 +3,7 @@ project(spectre CXX)
 set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(../kitui kitui)
-add_executable(spectre main.cpp)
+add_executable(spectre WIN32 main.cpp)  # Windows: GUI subsystem, no console window; ignored on Linux
 target_link_libraries(spectre PRIVATE kitui_app)
 if(UNIX)  # release binary only needs glibc + SDL3 on the user's system
   target_link_options(spectre PRIVATE -static-libstdc++ -static-libgcc)
