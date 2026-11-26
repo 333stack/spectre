@@ -1,3 +1,4 @@
+// Required Notice: Copyright 2026 Sandia (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
 // spectre: queue of YouTube URLs -> best-quality audio (MP3 320k / FLAC / WAV) in ~/Desktop/library via yt-dlp + ffmpeg.
 #include <condition_variable>
 #include <cstdint>

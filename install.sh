@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Required Notice: Copyright 2026 Sandia (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
 # spectre installer for Linux (x86_64). Installs for the current user only, no root needed for spectre itself.
 #   curl -fsSL https://raw.githubusercontent.com/333stack/spectre/main/install.sh | bash
 #   ./install.sh --uninstall
@@ -67,6 +68,7 @@ tar -xzf "$tmp/$ASSET" -C "$tmp/x"
 install -Dm755 "$tmp/x/spectre" "$BIN/spectre"
 install -Dm644 "$tmp/x/spectre.desktop" "$DATA/applications/spectre.desktop"
 install -Dm644 "$tmp/x/NOTICE.txt" "$DATA/doc/spectre/NOTICE.txt"
+install -Dm644 "$tmp/x/LICENSE.md" "$DATA/doc/spectre/LICENSE.md"
 sed -i "s|^Exec=.*|Exec=$BIN/spectre|" "$DATA/applications/spectre.desktop"  # works even if $BIN isn't on PATH
 command -v update-desktop-database >/dev/null && update-desktop-database -q "$DATA/applications" || true
 

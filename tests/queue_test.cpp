@@ -1,3 +1,4 @@
+// Required Notice: Copyright 2026 Sandia (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
 // Network check against real yt-dlp: download, cancel while running, cancel while queued. Usage: queue_test <scratch dir>
 #define main spectre_main
 #include "../main.cpp"
