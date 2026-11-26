@@ -194,6 +194,23 @@ struct Queue {
     }
 };
 
+// install.ps1 may put ffmpeg.exe next to spectre.exe; point yt-dlp at it. Empty = rely on PATH.
+static std::string ffmpeg_location() {
+#ifdef _WIN32
+    wchar_t buf[MAX_PATH];
+    DWORD n = GetModuleFileNameW(nullptr, buf, MAX_PATH);
+    if (n == 0 || n == MAX_PATH) return "";
+    std::wstring dir(buf, n);
+    dir.resize(dir.find_last_of(L'\\'));
+    if (GetFileAttributesW((dir + L"\\ffmpeg.exe").c_str()) == INVALID_FILE_ATTRIBUTES) return "";
+    std::string r(WideCharToMultiByte(CP_UTF8, 0, dir.data(), int(dir.size()), nullptr, 0, nullptr, nullptr), '\0');
+    WideCharToMultiByte(CP_UTF8, 0, dir.data(), int(dir.size()), r.data(), int(r.size()), nullptr, nullptr);
+    return r;
+#else
+    return "";
+#endif
+}
+
 static void run_one(Queue& q, uint64_t id, const std::string& url, int fmt, const std::string& outdir) {
     auto update = [&](auto f) {
         { std::lock_guard l(q.m); if (Item* it = q.find(id)) f(*it); }
@@ -202,16 +219,18 @@ static void run_one(Queue& q, uint64_t id, const std::string& url, int fmt, cons
     static const char* fmts[] = {"mp3", "flac", "wav"};
     // Per-job temp dir: a cancelled or failed job leaves no .part files in the library.
     const std::string tmp = outdir + "/.spectre-tmp/" + std::to_string(id);
+    std::vector<std::string> args = {"yt-dlp", "--no-playlist", "--newline", "--progress", "--encoding", "utf-8",
+        "-f", "bestaudio/best", "-x", "--audio-format", fmts[fmt],
+        "--audio-quality", fmt == 0 ? "320K" : "0",  // 320K -> ffmpeg -b:a 320k; ignored by lossless formats
+        "--embed-metadata",
+        "-P", outdir, "-P", "temp:" + tmp, "-o", "%(title)s [%(id)s].%(ext)s",
+        "--progress-template", "download:@%(progress._percent_str)s",
+        "--print", "before_dl:=%(title)s",
+        "--print", "after_move:>%(filepath)s",
+        "--", url};  // "--": a URL can't be parsed as an option
+    if (std::string ff = ffmpeg_location(); !ff.empty()) args.insert(args.end() - 2, {"--ffmpeg-location", ff});
     Proc p;
-    if (!p.start({"yt-dlp", "--no-playlist", "--newline", "--progress", "--encoding", "utf-8",
-                  "-f", "bestaudio/best", "-x", "--audio-format", fmts[fmt],
-                  "--audio-quality", fmt == 0 ? "320K" : "0",  // 320K -> ffmpeg -b:a 320k; ignored by lossless formats
-                  "--embed-metadata",
-                  "-P", outdir, "-P", "temp:" + tmp, "-o", "%(title)s [%(id)s].%(ext)s",
-                  "--progress-template", "download:@%(progress._percent_str)s",
-                  "--print", "before_dl:=%(title)s",
-                  "--print", "after_move:>%(filepath)s",
-                  "--", url})) {  // "--": a URL can't be parsed as an option
+    if (!p.start(args)) {
         update([](Item& it) { it.st = St::Failed; it.msg = "yt-dlp not found (install yt-dlp and ffmpeg)"; });
         return;
     }
