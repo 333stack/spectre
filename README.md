@@ -70,7 +70,7 @@ scripts/package.sh   # release assets in dist/ (Linux tarball + Windows zip, cro
 
 ## License
 
-Copyright 2026 Sandia. spectre and kitui are both my work. [PolyForm Noncommercial 1.0.0](LICENSE.md):
+Copyright 2026 STACK. spectre and kitui are both my work. [PolyForm Noncommercial 1.0.0](LICENSE.md):
 
 - You may use, modify and share spectre for any noncommercial purpose.
 - You must always credit the author: keep the `Required Notice` line and the license with every copy, modified or not.

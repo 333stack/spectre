@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Required Notice: Copyright 2026 Sandia (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
+# Required Notice: Copyright 2026 STACK (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
 # Build release binaries and pack the GitHub release assets into dist/:
 #   spectre-linux-x86_64.tar.gz  spectre-windows-x64.zip
 set -euo pipefail

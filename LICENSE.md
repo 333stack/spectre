@@ -1,4 +1,4 @@
-Required Notice: Copyright 2026 Sandia (https://github.com/333stack/spectre)
+Required Notice: Copyright 2026 STACK (https://github.com/333stack/spectre)
 
 Commercial use of any kind requires prior written permission from the licensor (contact: https://github.com/333stack).
 

@@ -1,4 +1,4 @@
-# Required Notice: Copyright 2026 Sandia (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
+# Required Notice: Copyright 2026 STACK (https://github.com/333stack/spectre). Licensed under PolyForm Noncommercial 1.0.0, see LICENSE.md.
 # spectre installer for Windows (x64). Per-user, no admin.
 #   irm https://raw.githubusercontent.com/333stack/spectre/main/install.ps1 | iex
 #   .\install.ps1 -Uninstall
