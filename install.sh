@@ -33,7 +33,7 @@ fi
 missing=()
 command -v yt-dlp >/dev/null || missing+=(yt-dlp)
 command -v ffmpeg >/dev/null || missing+=(ffmpeg)
-ldconfig -p 2>/dev/null | grep -q 'libSDL3\.so\.0' || missing+=(sdl3)
+ldconfig -p 2>/dev/null | grep 'libSDL3\.so\.0' >/dev/null || missing+=(sdl3)  # not -q: early exit SIGPIPEs ldconfig, which pipefail reports as failure
 if [ ${#missing[@]} -gt 0 ]; then
     cmd=""
     if command -v pacman >/dev/null; then cmd="sudo pacman -S --needed ${missing[*]}"
